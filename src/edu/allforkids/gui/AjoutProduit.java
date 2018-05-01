@@ -52,10 +52,10 @@ public class AjoutProduit {
       cb1.addItem("vetements");
      
      // f.setLayout(new FlowLayout(CENTER, CENTER));
-      tnomProd=new TextField("Nom Produit");
+      tnomProd=new TextField("","Nom Produit");
       c=new CheckBox("Disponible");
-      tprix=new TextField("Prix");
-      tquantite=new TextField("Quantite");
+      tprix=new TextField("","Prix");
+      tquantite=new TextField("","Quantite");
      
      // tdipso=new TextField("Disponibilite");
       image=new Button("Image");

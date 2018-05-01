@@ -11,6 +11,7 @@ import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -22,9 +23,13 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.util.Resources;
 import edu.allforkids.entities.User;
 import edu.allforkids.services.CrudUser;
+import java.io.IOException;
 import java.util.ArrayList;
+
+
 
 /**
  *
@@ -40,8 +45,8 @@ public class Login {
     public String imageProd;
     public int quantite;
     Toolbar toolbar;
-
-    public Login() {
+public  static int idUser;
+    public Login(Resources rs) {
         
         TextField login = new TextField();
         TextField mdp = new TextField();
@@ -67,27 +72,29 @@ public class Login {
                     for(int i=0;i<list.size();i++){
                          nom=list.get(i).getUsername();
                          mdp=list.get(i).getPassword();
+                         idUser=list.get(i).getId();
                     }
                     System.out.println(nom);
+                    System.out.println(idUser);
                     
                     //f2.getToolbar().add(new Button("afficher panier"));
                      if (n.equals(nom) && p.equals(mdp)) {
-                          Form f1 = new Form();
-                    f1.setLayout(new FlowLayout(CENTER, CENTER));
-                      toolbar = f1.getToolbar();
-                    //Image logo = theme.getImage("logo.png");
-                   // Container cn = BorderLayout.west(new Label(logo));
-                   // cn.add(BorderLayout.SOUTH, "narjes");
-                   // toolbar.addComponentToSideMenu(cn);
-                    f1.add("welcome narjes");
-                    f1.show();
+                    try {
+                        HomeForm hf=new HomeForm();
+                    } catch (IOException ex) {
+                      
+                    }
+                  
+                    
                      }else{
                          Dialog.show("Probléme", "Mot de passe ou login faux", "ok", "cancel");
                      }
                 
             }
         });
+        hi.show();
     }
+    
     
     
 }

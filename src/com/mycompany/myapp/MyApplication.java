@@ -35,6 +35,9 @@ import edu.allforkids.entities.User;
 import edu.allforkids.gui.AffichageProduits;
 import edu.allforkids.gui.AfficherProduits2;
 import edu.allforkids.gui.AjoutProduit;
+import edu.allforkids.gui.HomeForm;
+import edu.allforkids.gui.Login;
+import edu.allforkids.gui.Register;
 
 import edu.allforkids.services.CrudStore;
 import edu.allforkids.services.CrudUser;
@@ -85,92 +88,46 @@ public class MyApplication {
     public int quantite;
     Toolbar toolbar;
     Form f1;
-    
 
     public void start() {
         if (current != null) {
             current.show();
             return;
         }
+        try {
+            HomeForm home = new HomeForm();
 
-        TextField login = new TextField();
-        TextField mdp = new TextField();
+           
+            Form hi = new Form();
+            Button connexion = new Button("Se Connecter");
+            Button inscire = new Button("s inscire");
+            hi.addAll(connexion, inscire);
+            
+            
+            connexion.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                 
+                    Login l = new Login(theme);
+           
 
-        l = new Label();
-
-        mdp.setConstraint(PASSWORD);
-        Button b = new Button("Se Connecter");
-        Form hi = new Form();
-        hi.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-        hi.add(login);
-        hi.add(mdp);
-        hi.add(b);
-
-        b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-
-                // try {
-                String n = login.getText();
-                String p = mdp.getText();
-                CrudUser userService = new CrudUser();
-                ArrayList<User> list = userService.Login(n, p);
-                String nom = "";
-                String mdp = "";
-                for (int i = 0; i < list.size(); i++) {
-                    nom = list.get(i).getUsername();
-                    mdp = list.get(i).getPassword();
                 }
-                System.out.println(nom);
-
-                //f2.getToolbar().add(new Button("afficher panier"));
-                if (n.equals(nom) && p.equals(mdp)) {
-                    f1 = new Form();
-                    f1.setLayout(new FlowLayout(CENTER, CENTER));
-                    toolbar = f1.getToolbar();
-                    Image logo = theme.getImage("logo.png");
-                    Container cn = BorderLayout.west(new Label(logo));
-                    cn.add(BorderLayout.SOUTH, "narjes");
-                    toolbar.addComponentToSideMenu(cn);
-                    f1.add("welcome narjes");
-                    f1.show();
-                    AfficherProduits2 ap = new AfficherProduits2();
-    AjoutProduit AjoutP = new AjoutProduit();
-                    toolbar.addMaterialCommandToSideMenu("Boutique", FontImage.MATERIAL_STORE, e
-                            -> {
-
-                        ap.getF2().show();
-
-                    });
-                    toolbar.addMaterialCommandToSideMenu("Boutique", FontImage.MATERIAL_CHECK_BOX, e
-                            -> {
-
-                        AjoutP.getF().show();
-
-                    });
-                     ap.getF2().getToolbar().addCommandToLeftBar("Back", theme.getImage("back-command.png"), e -> {
-            f1.show();
-        });
-        AjoutP.getF().getToolbar().addCommandToLeftBar("Back", theme.getImage("back-command.png"), e -> {
-            f1.show();
-        });
-        ap.getF().getToolbar().addCommandToLeftBar("Back", theme.getImage("back-command.png"), e -> {
-            ap.getF2().show();
-        });
-                } else {
-                    Dialog.show("Probléme", "Mot de passe ou login faux", "ok", "cancel");
+            });
+            inscire.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    Register r = new Register();
                 }
-            }
-        });
+            });
+            
+            
+        
+            
+            
 
-       
-
-      
-
-        // } catch (IOException ex) {
-        //  }
-        hi.show();
-
+            hi.show();
+        } catch (IOException ex) {
+        }
     }
 
     public void stop() {

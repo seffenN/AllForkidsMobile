@@ -114,22 +114,7 @@ public class CrudStore {
         
     }
   
-    public void findById(int id) {
-          ConnectionRequest con = new ConnectionRequest();
-          List<Produits> books = new ArrayList<>();
-         String Url="http://localhost/CrudCommande/FindById.php?id="+id;
-                 
-         System.out.println("dernier idcommande");
-          con.setUrl(Url);
-          
-        con.addResponseListener((evt) -> {
-             String str = new String(con.getResponseData());
-            System.out.println(str);
-        });
-          NetworkManager.getInstance().addToQueueAndWait(con);
-        
-        
-    }
+  
     
       public ArrayList<Commande> getAllCommande(){
          ArrayList<Commande> Listc = new ArrayList<>();
@@ -154,6 +139,86 @@ public class CrudStore {
                        
                        
                         Listc.add(c);
+
+                    }
+                } catch (IOException ex) {
+                    
+                }
+                
+
+           }
+         });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return Listc;
+         
+        
+    }
+      public ArrayList<ligne_commandes> getAllLigneCommande(int idCommande){
+         ArrayList<ligne_commandes> Listc = new ArrayList<>();
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/PI4/web/app_dev.php/pi/prod/LigneCommandeId/"+idCommande);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+             @Override
+             public void actionPerformed(NetworkEvent evt) {
+                  JSONParser jsonp = new JSONParser();
+                  try{
+                  Map<String, Object> com = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                    System.out.println(com);
+                   // System.out.println(prods);
+                    List<Map<String, Object>> list = (List<Map<String, Object>>) com.get("root");
+                    for (Map<String, Object> obj : list) {
+                        
+                        System.err.println(obj.toString());
+                     ligne_commandes lc=new ligne_commandes();
+                       float id = Float.parseFloat(obj.get("idCommande").toString());
+                       float idProduit = Float.parseFloat(obj.get("idProduit").toString());
+                        lc.setId_produit((int)idProduit);
+                        float Quantite=Float.parseFloat(obj.get("nbrArticle").toString());
+                        lc.setQuantite((int)Quantite);
+                        float Prix=Float.parseFloat(obj.get("prixTotal").toString());
+                      
+                       
+                        lc.setPrix_commande((float)Prix);
+                       lc.setId_commande((int) id);
+                       // p.setImage(obj.get("image").toString());
+                       
+                       
+                        Listc.add(lc);
+
+                    }
+                } catch (IOException ex) {
+                    
+                }
+                
+
+           }
+         });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return Listc;
+         
+        
+    }
+      public ArrayList<Produits> findProd(int id){
+         ArrayList<Produits> Listc = new ArrayList<>();
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/PI4/web/app_dev.php/pi/prod/FindProduitById/"+id);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+             @Override
+             public void actionPerformed(NetworkEvent evt) {
+                  JSONParser jsonp = new JSONParser();
+                  try{
+                  Map<String, Object> com = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                    System.out.println(com);
+                   // System.out.println(prods);
+                    List<Map<String, Object>> list = (List<Map<String, Object>>) com.get("root");
+                    for (Map<String, Object> obj : list) {
+                        
+                        System.err.println(obj.toString());
+                       Produits p=new Produits();
+                       // p.setImage(obj.get("image").toString());
+                       
+                         p.setNom(obj.get("nom").toString());
+                        Listc.add(p);
 
                     }
                 } catch (IOException ex) {

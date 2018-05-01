@@ -15,10 +15,12 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextField;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
+import com.mycompany.myapp.MyApplication;
 import edu.allforkids.entities.Commande;
 import edu.allforkids.entities.Produits;
 import edu.allforkids.entities.ligne_commandes;
@@ -37,17 +39,23 @@ import java.util.Set;
 public class AfficherProduits2 {
 
     Form f2;
+     int idcom=0;
+    
+     Label nomProds;
     Form f;
     CrudStore service = new CrudStore();
     private EncodedImage ei;
     public static List<Produits> p = new ArrayList<>();
     int occ = 0;
-
+ TextField nvr;
     public AfficherProduits2() {
+        Form coman=new Form("Vos Commandes", new BoxLayout(BoxLayout.Y_AXIS));
         f2 = new Form();
         f = new Form("Panier Liste", new BoxLayout(BoxLayout.Y_AXIS));
         Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container panier = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+         Container Commandes = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        Container VoirCommande = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Button affiche = new Button("Afficher Panier");
        // affiche.setVisible(false);
         c1.add(affiche);
@@ -106,7 +114,7 @@ public class AfficherProduits2 {
                             System.out.println("tawaajouta " + prod.getId());
 
                         }
-                      //  affiche.setVisible(true);
+                 
 
                     }
                 }
@@ -130,54 +138,88 @@ public class AfficherProduits2 {
                     c4.add(image);
                     Container c5 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
                     Label lb = new Label(p.get(i).getNom());
-                    // System.out.println(lb.getText());
-                    //Button b=new Button("Ajout au Panier");
-                    // b.setSize(new Dimension(5,5));
                     Label lb3 = new Label("" + p.get(i).getId());
                     Label qt = new Label("" + p.get(i).getQuantite());
-                    //System.out.println(qt.getText());
                     Label lb2 = new Label("Prix :" + p.get(i).getPrix());
-                    // Button ap = new Button("Ajout au Panier");
+                    nvr=new TextField();
+                   // nvr.setUIID("1");
                     c5.add(lb);
-
-                    // eq1.add(b);
+                     c5.add(nvr);
                     c5.add(lb2);
-                    // c5.add(ap);
-                    // eq3.add(ap);
                     c3.add(c4);
                     c3.add(c5);
                     panier.add(c3);
                 }
                 Button Commander = new Button("Commander");
+                Button VoirCommande =new Button("Voir Commande");
+                VoirCommande.setVisible(false);
                 panier.add(Commander);
+                panier.add(VoirCommande);
+                
+                
                 Commander.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent evt) {
+                        System.out.println(nvr.getText());
                         Commande c = new Commande();
-                        c.setIdClient(4);
+                        c.setIdClient(Login.idUser);
                         service.AjoutCommande(c);
                         System.out.println("ajout avec succes");
                          ArrayList<Commande> listCommande=service.getAllCommande();
-                         int idcom=0;
+                        
                          for(int k=0;k<listCommande.size();k++){
                               idcom=listCommande.get(k).getIdCommande();
-                            // System.out.println(idcom);
+                            
                          }
-                         // ArrayList<Commande> list=service.LastCommande(idcom);
-
                           System.out.println(idcom);
-                         // int ifc=0;
+                         
                         for (int i = 0; i < p.size(); i++) {
                             ligne_commandes l=new ligne_commandes();
                           l.setId_produit(p.get(i).getId());
                         
-                         //   System.out.println(ifc);
                            l.setId_commande(idcom);
-                          l.setPrix_commande(p.get(i).getPrix());
-                          l.setQuantite(p.get(i).getQuantite());
-                          service.AjoutLigneCommande(l);
+                           float prixTot=p.get(i).getPrix()*Integer.parseInt(nvr.getText());
+                          l.setPrix_commande(prixTot);
+                          l.setQuantite(Integer.parseInt(nvr.getText()));
+                         service.AjoutLigneCommande(l);
                           System.out.println("ajout ligne commande");
                         }
+                        VoirCommande.setVisible(true);
+                        Commander.setVisible(false);
+                        VoirCommande.addActionListener(new ActionListener() {
+                            
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                System.out.println(idcom);
+                                ArrayList<ligne_commandes> listLC=service.getAllLigneCommande(idcom);
+                                
+                                for(ligne_commandes item:listLC){
+                                     Container lis = new Container(new BoxLayout(BoxLayout.X_AXIS));
+                                     Container lis1 = new Container(new BoxLayout(BoxLayout.X_AXIS));
+                                     Container lis2 = new Container(new BoxLayout(BoxLayout.X_AXIS));
+                                     Container lis3 = new Container(new BoxLayout(BoxLayout.X_AXIS));
+                                    Label idCom=new Label("Numéro de Commande"+item.getId_commande());
+                                    Label article=new Label("Nombre Article"+item.getQuantite());
+                                    Label Prix=new Label("Prix"+item.getPrix_commande());
+                                    ArrayList<Produits> listP=service.findProd(item.getId_produit());
+                                    for(Produits itemP:listP){
+                                         nomProds=new Label(itemP.getNom());
+                                    }
+                                   lis.add(idCom);
+                                   lis1.add(article);
+                                   lis2.add(Prix);
+                                   lis3.add(nomProds);
+                                  Commandes.addAll(lis,lis2,lis3,lis1);
+                                  
+                                   
+                                }
+                                coman.add(Commandes);
+                                coman.show();
+                                
+                                
+                                
+                            }
+                        });
                         
                         
                     }

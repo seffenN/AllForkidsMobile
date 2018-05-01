@@ -61,6 +61,19 @@ public class CrudUser {
          
         
     }
+    public void Register(User u){
+        ConnectionRequest con = new ConnectionRequest();
+         String Url="http://localhost/PI4/web/app_dev.php/pi/Register/" +u.getUsername()+ "/" +u.getUsername_canonical()+ "/" +u.getEmail()+ "/" +u.getEmail_canonical()+ "/" +u.getPassword()+ "/" +u.getRoles();
+                 
+         System.out.println("user ajouté");
+          con.setUrl(Url);
+          
+        con.addResponseListener((evt) -> {
+             String str = new String(con.getResponseData());
+            System.out.println(str);
+        });
+          NetworkManager.getInstance().addToQueueAndWait(con);
+    }
         
     }
     
