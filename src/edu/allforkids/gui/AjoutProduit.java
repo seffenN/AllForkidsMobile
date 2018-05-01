@@ -16,9 +16,11 @@ import com.codename1.ui.ComboBox;
 import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import edu.allforkids.entities.Produits;
@@ -95,6 +97,38 @@ NetworkManager.getInstance().addToQueueAndWait(cr);
           @Override
           public void actionPerformed(ActionEvent evt) {
               CrudStore service=new CrudStore();
+              if(tnomProd.getText().equals("")||tprix.getText().equals("")||tquantite.getText().equals("")||cb1.getSelectedItem().toString().equals("")){
+                   Dialog d = new Dialog("Champs Vide");
+            
+            TextArea popupBody = new TextArea("Champs Vide");
+            popupBody.setUIID("PopupBody");
+            popupBody.setEditable(true);
+            d.setLayout(new BorderLayout());
+            d.add(BorderLayout.CENTER, popupBody);
+            d.show("Champs vide","Veuillez remplir tous les champs","OK",null);
+                  
+              }else if(Integer.valueOf(tquantite.getText())<=0){
+                    Dialog d = new Dialog("Valeur negative");
+            
+            TextArea popupBody = new TextArea("Valuer negative");
+            popupBody.setUIID("PopupBody");
+            popupBody.setEditable(true);
+            d.setLayout(new BorderLayout());
+            d.add(BorderLayout.CENTER, popupBody);
+            d.show("Valeur negative","Veuillez ajouter une valeur positive","OK",null);
+                  
+              }else if (Integer.valueOf(tprix.getText())<=0){
+                    Dialog d = new Dialog("Valeur negative");
+            
+            TextArea popupBody = new TextArea("Valuer negative");
+            popupBody.setUIID("PopupBody");
+            popupBody.setEditable(true);
+            d.setLayout(new BorderLayout());
+            d.add(BorderLayout.CENTER, popupBody);
+            d.show("Valeur negative","Veuillez ajouter une valeur positive","OK",null);
+                  
+              }
+              else{
               Produits p=new Produits();
                     p.setCategorie(""+cb1.getSelectedItem());
                     p.setNom(tnomProd.getText());
@@ -107,6 +141,7 @@ NetworkManager.getInstance().addToQueueAndWait(cr);
                     p.setEtat("accepted");
                     
                     service.AjoutProd(p);
+              }
                     
                       
           }

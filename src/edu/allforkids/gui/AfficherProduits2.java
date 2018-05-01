@@ -15,10 +15,12 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.myapp.MyApplication;
 import edu.allforkids.entities.Commande;
@@ -101,6 +103,14 @@ public class AfficherProduits2 {
                        
                     if (p.isEmpty()) {
                         p.add(prod);
+                          Dialog d = new Dialog("Produit Ajoute Avec succés");
+            
+            TextArea popupBody = new TextArea("Produit Ajoute Avec succés");
+            popupBody.setUIID("PopupBody");
+            popupBody.setEditable(true);
+            d.setLayout(new BorderLayout());
+            d.add(BorderLayout.CENTER, popupBody);
+            d.show("Panier","Produit Ajoute Avec succés","OK",null);
                         
                         System.out.println("ajouta" + prod.getId());
                     } else {
@@ -112,11 +122,19 @@ public class AfficherProduits2 {
                         if (occ == 0) {
                             p.add(prod);
                             System.out.println("tawaajouta " + prod.getId());
-
+ Dialog d = new Dialog("Produit Ajoute Avec succés");
+            
+            TextArea popupBody = new TextArea("Produit Ajoute Avec succés");
+            popupBody.setUIID("PopupBody");
+            popupBody.setEditable(true);
+            d.setLayout(new BorderLayout());
+            d.add(BorderLayout.CENTER, popupBody);
+            d.show("Panier","Produit Ajoute Avec succés","OK",null);
                         }
-                 
+                    
 
                     }
+                    
                 }
 
             });
@@ -172,18 +190,22 @@ public class AfficherProduits2 {
                             
                          }
                           System.out.println(idcom);
+                          
                          
                         for (int i = 0; i < p.size(); i++) {
+                          
                             ligne_commandes l=new ligne_commandes();
                           l.setId_produit(p.get(i).getId());
                         
                            l.setId_commande(idcom);
                            float prixTot=p.get(i).getPrix()*Integer.parseInt(nvr.getText());
                           l.setPrix_commande(prixTot);
+                         
                           l.setQuantite(Integer.parseInt(nvr.getText()));
                          service.AjoutLigneCommande(l);
                           System.out.println("ajout ligne commande");
                         }
+                        
                         VoirCommande.setVisible(true);
                         Commander.setVisible(false);
                         VoirCommande.addActionListener(new ActionListener() {
