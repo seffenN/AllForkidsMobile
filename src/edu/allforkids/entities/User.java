@@ -90,6 +90,20 @@ public class User {
         this.roles = roles;
         this.Sexe = Sexe;
     }
+     public User(int id, String username, String email,int Age, String Sexe,String adresse,String nom_image,String Ville,int nbrAnnneExp,String Etat,int numTel ) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.Age=Age;
+        this.adresse=adresse;
+        this.nom_image=nom_image;
+        this.Ville=Ville;
+        this.nbrAnneeExp=nbrAnnneExp;
+        this.Etat=Etat;
+        this.numTe=numTel;
+       
+        this.Sexe = Sexe;
+    }
 
     public User(int id, String username, String email, String password, String roles, String nom_image, String Sexe, String adresse, int enabled) {
         this.id = id;

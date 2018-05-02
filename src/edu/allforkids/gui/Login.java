@@ -29,14 +29,13 @@ import edu.allforkids.services.CrudUser;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-
 /**
  *
  * @author Narjes
  */
 public class Login {
-     private EncodedImage ei;
+
+    private EncodedImage ei;
     private Label l;
     Database db;
     boolean created = false;
@@ -45,9 +44,12 @@ public class Login {
     public String imageProd;
     public int quantite;
     Toolbar toolbar;
-public  static int idUser;
+    public static int idUser;
+   public static String nom ="";
+  
+
     public Login(Resources rs) {
-        
+
         TextField login = new TextField();
         TextField mdp = new TextField();
 
@@ -64,37 +66,34 @@ public  static int idUser;
             @Override
             public void actionPerformed(ActionEvent evt) {
                 String n = login.getText();
-                    String p = mdp.getText();
-                     CrudUser userService=new CrudUser();
-                    ArrayList<User> list=userService.Login(n,p);
-                    String nom="";
-                     String mdp="";
-                    for(int i=0;i<list.size();i++){
-                         nom=list.get(i).getUsername();
-                         mdp=list.get(i).getPassword();
-                         idUser=list.get(i).getId();
-                    }
-                    System.out.println(nom);
-                    System.out.println(idUser);
+                String p = mdp.getText();
+                CrudUser userService = new CrudUser();
+                ArrayList<User> list = userService.Login(n, p);
+                      String mdp ="";
+                for (int i = 0; i < list.size(); i++) {
+                    nom = list.get(i).getUsername();
+                    mdp = list.get(i).getPassword();
+                    idUser = list.get(i).getId();
                     
-                    //f2.getToolbar().add(new Button("afficher panier"));
-                     if (n.equals(nom) && p.equals(mdp)) {
+                }
+                System.out.println(nom);
+                System.out.println(idUser);
+
+                //f2.getToolbar().add(new Button("afficher panier"));
+                if (n.equals(nom) && p.equals(mdp)) {
                     try {
-                        HomeForm hf=new HomeForm();
+                        HomeForm hf = new HomeForm();
                     } catch (IOException ex) {
-                      
+
                     }
-                  
-                    
-                     }else{
-                         Dialog.show("Probléme", "Mot de passe ou login faux", "ok", "cancel");
-                     }
-                
+
+                } else {
+                    Dialog.show("Probléme", "Mot de passe ou login faux", "ok", "cancel");
+                }
+
             }
         });
         hi.show();
     }
-    
-    
-    
+
 }

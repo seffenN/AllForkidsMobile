@@ -8,6 +8,7 @@ package edu.allforkids.gui;
 import com.codename1.components.ImageViewer;
 import com.codename1.components.InteractionDialog;
 import com.codename1.db.Database;
+import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
@@ -22,6 +23,8 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.MyApplication;
 import edu.allforkids.entities.Commande;
 import edu.allforkids.entities.Produits;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 
 /**
@@ -49,8 +53,11 @@ public class AfficherProduits2 {
     private EncodedImage ei;
     public static List<Produits> p = new ArrayList<>();
     int occ = 0;
+     private Resources theme;
+      float prixTot=0;
  TextField nvr;
     public AfficherProduits2() {
+         theme = UIManager.initFirstTheme("/theme");
         Form coman=new Form("Vos Commandes", new BoxLayout(BoxLayout.Y_AXIS));
         f2 = new Form();
         f = new Form("Panier Liste", new BoxLayout(BoxLayout.Y_AXIS));
@@ -58,7 +65,9 @@ public class AfficherProduits2 {
         Container panier = new Container(new BoxLayout(BoxLayout.Y_AXIS));
          Container Commandes = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container VoirCommande = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        Button payer=new Button("Payer");
         Button affiche = new Button("Afficher Panier");
+        
        // affiche.setVisible(false);
         c1.add(affiche);
 
@@ -182,6 +191,7 @@ public class AfficherProduits2 {
                         Commande c = new Commande();
                         c.setIdClient(Login.idUser);
                         service.AjoutCommande(c);
+                        
                         System.out.println("ajout avec succes");
                          ArrayList<Commande> listCommande=service.getAllCommande();
                         
@@ -198,7 +208,7 @@ public class AfficherProduits2 {
                           l.setId_produit(p.get(i).getId());
                         
                            l.setId_commande(idcom);
-                           float prixTot=p.get(i).getPrix()*Integer.parseInt(nvr.getText());
+                            prixTot=p.get(i).getPrix()*Integer.parseInt(nvr.getText());
                           l.setPrix_commande(prixTot);
                          
                           l.setQuantite(Integer.parseInt(nvr.getText()));
@@ -235,8 +245,23 @@ public class AfficherProduits2 {
                                   
                                    
                                 }
+                                coman.add(payer);
+                                
                                 coman.add(Commandes);
                                 coman.show();
+                                payer.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent evt) {
+                                          Form hi = new Form("Browser", new BorderLayout());
+    BrowserComponent browser = new BrowserComponent();
+                                        System.out.println(Register.emails);
+ 
+ browser.setURL("http://localhost/tranche.php?MONTANT="+prixTot+"&NAME="+Login.nom+"&EMAIL="+Register.emails);
+ hi.add(BorderLayout.CENTER ,browser);
+ hi.show();
+                                        
+                                    }
+                                });
                                 
                                 
                                 
@@ -252,6 +277,24 @@ public class AfficherProduits2 {
             }
         });
         f.add(panier);
+        f2.getToolbar().addCommandToLeftBar("Back",theme.getImage("back-command.png"),e->{
+             try {
+                 HomeForm hf=new HomeForm();
+                 hf.getF1().show();
+             } catch (IOException ex) {
+                
+             }
+           
+        });
+          f.getToolbar().addCommandToLeftBar("Back",theme.getImage("back-command.png"),e->{
+             try {
+                 HomeForm hf=new HomeForm();
+                 hf.getF1().show();
+             } catch (IOException ex) {
+                
+             }
+           
+        });
 
     }
 

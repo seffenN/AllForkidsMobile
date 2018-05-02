@@ -23,8 +23,11 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 import edu.allforkids.entities.Produits;
 import edu.allforkids.services.CrudStore;
+import java.io.IOException;
 import java.util.Date;
 import rest.file.uploader.tn.FileUploader;
 
@@ -44,10 +47,11 @@ public class AjoutProduit {
     Button ajout;
     ComboBox cb1;
      String fileNameInServer;
-   
+     private Resources theme;
     
 
     public AjoutProduit()  {
+        theme = UIManager.initFirstTheme("/theme");
       f=new Form(new BoxLayout(BoxLayout.Y_AXIS));
       cb1=new	ComboBox();
       cb1.addItem("jouets");
@@ -147,7 +151,15 @@ NetworkManager.getInstance().addToQueueAndWait(cr);
           }
       });
       f.show();
-              
+              f.getToolbar().addCommandToLeftBar("Back",theme.getImage("back-command.png"),e->{
+             try {
+                 HomeForm hf=new HomeForm();
+                 hf.getF1().show();
+             } catch (IOException ex) {
+                
+             }
+           
+        }); 
               
         
     }

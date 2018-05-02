@@ -28,6 +28,7 @@ import java.util.ArrayList;
  */
 public class Register {
 ComboBox cb;
+public static String emails ="";
     public Register() {
         Form f=new Form();
         TextField username=new TextField("","username");
@@ -39,9 +40,9 @@ ComboBox cb;
          cb.addItem("BabySitter");
           cb.addItem("Pediatre");
        // TextField role=new TextField("","role");
-        TextField image=new TextField("", "image");
+       // TextField image=new TextField("", "image");
         Button inscrire=new Button("s'inscrire");
-        f.addAll(username,email,mdp,cb,image,inscrire);
+        f.addAll(username,email,mdp,cb,inscrire);
         inscrire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -61,6 +62,7 @@ ComboBox cb;
                     u.setUsername_canonical(username.getText());
                     u.setEmail(email.getText());
                     u.setEmail_canonical(email.getText());
+                    emails=email.getText();
                     u.setRoles(""+cb.getSelectedItem());
                     u.setPassword(mdp.getText());
                     //u.setNom_image(image.getText());

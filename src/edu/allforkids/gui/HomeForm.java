@@ -24,6 +24,8 @@ import edu.allforkids.entities.Enfant;
 import edu.allforkids.services.ServiceQuiz;
 import java.io.IOException;
 
+
+
 /**
  *
  * @author Narjes
@@ -56,10 +58,43 @@ public class HomeForm {
             ap.getF2().show();
 
         });
-        toolbar.addMaterialCommandToSideMenu("Ajout Produit", FontImage.MATERIAL_ADD_SHOPPING_CART, e
+       
+        toolbar.addMaterialCommandToSideMenu("Evenements", FontImage.MATERIAL_EVENT_NOTE, e
                 -> {
+                 AfficheEvenement AE=new AfficheEvenement();
+           AE.getF().show();
 
-            AjoutP.getF().show();
+        });
+        
+          toolbar.addMaterialCommandToSideMenu("Ajout Evenement", FontImage.MATERIAL_EVENT, e
+                -> {
+            try {
+                AjoutEvenement Aj=new AjoutEvenement();
+                Aj.getF().show();
+            } catch (IOException ex) {
+               
+            }
+                         
+
+        });
+               toolbar.addMaterialCommandToSideMenu("Ajout Produit", FontImage.MATERIAL_STORE, e
+                -> {
+            
+                AjoutProduit Aj=new AjoutProduit();
+                Aj.getF().show();
+           
+                         
+
+        });
+        toolbar.addMaterialCommandToSideMenu("Baby Sitter", FontImage.MATERIAL_WORK, e
+                -> {
+            try {
+                AfficheBabysitters Ab=new AfficheBabysitters();
+                
+                Ab.getF().show();
+            } catch (IOException ex) {
+              
+            }
 
         });
 
