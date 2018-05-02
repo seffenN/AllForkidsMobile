@@ -21,7 +21,9 @@ import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.spinner.Picker;
+import com.codename1.ui.util.Resources;
 import edu.allforkids.entities.Categorie;
 import edu.allforkids.entities.Evenement;
 import edu.allforkids.services.ServiceEvenement;
@@ -37,6 +39,7 @@ public class AjoutEvenement {
 
     String fileNameInServer;
     Evenement E;
+     private Resources theme;
     
     TextField tfTitre, tfDescription, tfTarif, tfLieu, tfPlaceDispo;
     Button btnajout, btnaff;
@@ -44,6 +47,7 @@ public class AjoutEvenement {
     Form f = new Form("Ajout Evenement");
     
     public AjoutEvenement() throws IOException {
+        theme = UIManager.initFirstTheme("/theme");
         
         Label lbCategorie = new Label("Categorie:");
         ComboCatgorie = new ComboBox();
@@ -160,6 +164,14 @@ public class AjoutEvenement {
             System.out.println(ComboCatgorie.getSelectedItem());
             System.out.println("even ajouté succée");
         });
+         f.getToolbar().addCommandToLeftBar("back", theme.getImage("back-command.png"), b -> {
+                             try {
+                HomeForm h=new HomeForm();
+                h.getF1().show();
+            } catch (IOException ex) {
+                
+            }
+                        });
         
     }
     

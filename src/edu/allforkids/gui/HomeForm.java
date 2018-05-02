@@ -20,6 +20,8 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 import edu.allforkids.entities.Enfant;
 import edu.allforkids.services.ServiceQuiz;
 import java.io.IOException;
@@ -36,9 +38,11 @@ public class HomeForm {
     Image logo;
     Form f1;
     public static int idenfant;
+     private Resources theme;
     int enfant;
 
     public HomeForm() throws IOException {
+        theme = UIManager.initFirstTheme("/theme");
         f1 = new Form();
         f1.setLayout(new FlowLayout(CENTER, CENTER));
         toolbar = f1.getToolbar();
@@ -48,8 +52,11 @@ public class HomeForm {
         logo = Image.createImage("/logo.png");
         Container cn = BorderLayout.west(new Label(logo));
         //cn.add(BorderLayout.SOUTH, nom);
+        Image kids=Image.createImage("/kids-014.jpg");
+        f1.add(kids);
+        
         toolbar.addComponentToSideMenu(cn);
-        f1.add("welcome narjes");
+        f1.add("welcome"+Login.nom);
         AfficherProduits2 ap = new AfficherProduits2();
         AjoutProduit AjoutP = new AjoutProduit();
         toolbar.addMaterialCommandToSideMenu("Boutique", FontImage.MATERIAL_STORE, e
@@ -58,6 +65,7 @@ public class HomeForm {
             ap.getF2().show();
 
         });
+       
        
         toolbar.addMaterialCommandToSideMenu("Evenements", FontImage.MATERIAL_EVENT_NOTE, e
                 -> {
@@ -168,6 +176,12 @@ public class HomeForm {
             c1.add(listeenfant);
             c1.add(butt);
             Dialog.show("Veuillez choisir Le nom de votre enfant et l'année", c1, null);
+
+        });
+          toolbar.addMaterialCommandToSideMenu("Se Deconnecter", FontImage.MATERIAL_LOCK, e
+                -> {
+               Login l=new Login(theme);
+            
 
         });
 

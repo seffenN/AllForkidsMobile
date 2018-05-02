@@ -177,6 +177,14 @@ public class AfficheBabysitters {
             }
                                         
             });
+         f.getToolbar().addCommandToLeftBar("back", theme.getImage("back-command.png"), b -> {
+                             try {
+                HomeForm h=new HomeForm();
+                h.getF1().show();
+            } catch (IOException ex) {
+                
+            }
+                        });
         
          
     }

@@ -30,6 +30,7 @@ import com.codename1.ui.events.ActionListener;
 
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.Style;
 import edu.allforkids.entities.Produits;
 import edu.allforkids.entities.User;
 import edu.allforkids.gui.AffichageProduits;
@@ -88,7 +89,7 @@ public class MyApplication {
     public int quantite;
     Toolbar toolbar;
     Form f1;
-
+ Form hi;
     public void start() {
         if (current != null) {
             current.show();
@@ -98,9 +99,19 @@ public class MyApplication {
             HomeForm home = new HomeForm();
 
            
-            Form hi = new Form();
+             hi = new Form();
+            Image logo=Image.createImage("/logo.png");
+             ImageViewer im=new ImageViewer();
+            
+           
+            Image ballon=Image.createImage("/balloons.png");
+             im.setImage(ballon);
+            Container cn = BorderLayout.west(new Label(ballon));
+            hi.add(cn);
+            hi.add(logo);
             Button connexion = new Button("Se Connecter");
             Button inscire = new Button("s inscire");
+           
             hi.addAll(connexion, inscire);
             
             
@@ -128,6 +139,10 @@ public class MyApplication {
             hi.show();
         } catch (IOException ex) {
         }
+    }
+
+    public Form getHi() {
+        return hi;
     }
 
     public void stop() {
